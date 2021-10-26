@@ -25,17 +25,17 @@ domain = de.Domain([x_basis, y_basis], grid_dtype=np.float64)
 problem = de.IVP(domain, variables=['u','v','h','uy','vy'])
 problem.meta[:]['y']['dirchlet'] = True
 
-N0 = 0.65               # amplitude
-L  = 125e3              # length scale
-H  = 0.8                 # mean depth 80 cm
-g  = 9.8                 # gravity
+N0 = 0.65              # amplitude
+L  = 125e3             # length scale
+H  = 0.8               # mean depth 80 cm
+g  = 9.8               # gravity
 f0 = 5.9318e-05        # Coriolis parameter
-LR = np.sqrt(g*H)/f0  # deformation radius
-beta0 = 2.0912e-11    # Rossby parameter
-mu    = 1.e-8           # horizontal viscosity
-gamma = 0.              # Rayleigh bottom friction
+LR = np.sqrt(g*H)/f0   # deformation radius
+beta0 = 2.0912e-11     # Rossby parameter
+mu    = 1.e-8          # horizontal viscosity
+gamma = 0.             # Rayleigh bottom friction
 
-problem.parameters['N0'] = N
+problem.parameters['N0'] = N0
 problem.parameters['L'] = L
 problem.parameters['LR'] = LR
 problem.parameters["H"]= H
@@ -103,9 +103,8 @@ solver.stop_iteration = np.inf
 
 
 # CFL
-dt = 0.1*Lx/Nx    # initial time step<
-CFL = flow_tools.CFL(solver, initial_dt=dt, cadence=10, safety=2,
-                         max_change=1.2, min_change=0.5, max_dt=3*dt)
+dt = 0.1*Lx/Nx    # initial time step
+CFL = flow_tools.CFL(solver, initial_dt=dt, cadence=10, safety=2,max_change=1.2, min_change=0.5, max_dt=3*dt)
 flow = flow_tools.GlobalFlowProperty(solver, cadence=10)
 
 # Main loop
